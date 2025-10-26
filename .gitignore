@@ -1,0 +1,51 @@
+# C++ and Bins
+/cpp_core/bin/
+/cpp_core/build/
+/cpp_core/obj/
+/cpp_core/*.exe
+*.out
+*.o
+*.obj
+*.a
+*.so
+*.dll
+
+
+# Py 
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pdb
+*.egg-info/
+dist/
+build/
+
+# Docker ?? 
+venv/
+env/
+.venv/
+
+# log and hisotry ( will add schema.json too)
+*.log
+.DS_Store
+history.json
+
+# vs code
+.vscode/
+*.code-workspace
+
+# Qt
+*.qcache
+*.user
+*.pro.user
+*.qmlc
+*.jsc
+
+Thumbs.db
+*.swp
+*.swo
+
+# it is just there ( experimenting with PyQt or Streamlit)
+.streamlit
+
