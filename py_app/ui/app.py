@@ -1,8 +1,3 @@
-"""
-AlgoForge - Algorithm Benchmark & Visualization System
-Professional PyQt6 Interface
-"""
-
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout, QHBoxLayout,
     QLabel, QPushButton, QTextEdit, QTabWidget, QFileDialog, 
@@ -13,9 +8,8 @@ from PyQt6.QtGui import QFont, QTextCharFormat, QColor, QSyntaxHighlighter
 import sys
 import json
 
-# ============ THEME CONSTANTS ============
+
 class Theme:
-    # Dark Theme
     DARK_BG = "#0D1117"
     DARK_BG_SECONDARY = "#161B22"
     DARK_BG_TERTIARY = "#21262D"
@@ -25,7 +19,6 @@ class Theme:
     DARK_SUCCESS = "#3FB950"
     DARK_BORDER = "#30363D"
     
-    # Light Theme
     LIGHT_BG = "#FFFFFF"
     LIGHT_BG_SECONDARY = "#F6F8FA"
     LIGHT_BG_TERTIARY = "#EFF1F3"
@@ -36,31 +29,49 @@ class Theme:
     LIGHT_BORDER = "#D0D7DE"
 
 
-# ============ SYNTAX HIGHLIGHTER ============
 class CppHighlighter(QSyntaxHighlighter):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.keywords = [
-            'int', 'float', 'double', 'char', 'void', 'bool',
-            'if', 'else', 'while', 'for', 'return', 'include',
-            'class', 'struct', 'namespace', 'using', 'const'
-        ]
+        'alignas', 'alignof', 'and', 'and_eq', 'asm', 'auto',
+        'bitand', 'bitor', 'bool', 'break',
+        'case', 'catch', 'char', 'char8_t', 'char16_t', 'char32_t', 
+        'class', 'compl', 'concept', 'const', 'consteval', 'constexpr', 
+        'constinit', 'const_cast', 'continue', 'co_await', 'co_return', 'co_yield',
+        'decltype', 'default', 'delete', 'do', 'double', 'dynamic_cast',
+        'else', 'enum', 'explicit', 'export', 'extern',
+        'false', 'float', 'for', 'friend',
+        'goto',
+        'if', 'inline', 'int',
+        'long',
+        'mutable',
+        'namespace', 'new', 'noexcept', 'not', 'not_eq', 'nullptr',
+        'operator', 'or', 'or_eq',
+        'private', 'protected', 'public',
+        'register', 'reinterpret_cast', 'requires', 'return',
+        'short', 'signed', 'sizeof', 'static', 'static_assert', 'static_cast', 
+        'struct', 'switch',
+        'template', 'this', 'thread_local', 'throw', 'true', 'try', 
+        'typedef', 'typeid', 'typename',
+        'union', 'unsigned', 'using',
+        'virtual', 'void', 'volatile',
+        'wchar_t', 'while',
+        'xor', 'xor_eq',
+        'include', 'define', 'ifdef', 'ifndef', 'endif', 'pragma'
+    ]
         
     def highlightBlock(self, text):
         keyword_format = QTextCharFormat()
         keyword_format.setForeground(QColor("#FF79C6"))
         keyword_format.setFontWeight(QFont.Weight.Bold)
         
+        import re
         for word in self.keywords:
-            index = 0
-            while index >= 0:
-                index = text.find(word, index)
-                if index >= 0:
-                    self.setFormat(index, len(word), keyword_format)
-                    index += len(word)
+            pattern = r'\b' + word + r'\b'
+            for match in re.finditer(pattern, text):
+                self.setFormat(match.start(), match.end() - match.start(), keyword_format)
 
 
-# ============ WORKER THREAD ============
 class BenchmarkWorker(QThread):
     finished = pyqtSignal(dict)
     error = pyqtSignal(str)
@@ -72,8 +83,6 @@ class BenchmarkWorker(QThread):
     
     def run(self):
         try:
-            # TODO: Actual compilation and benchmarking
-            # For now, mock response
             result = {
                 "status": "success",
                 "time_ns": 1234567,
@@ -85,7 +94,6 @@ class BenchmarkWorker(QThread):
             self.error.emit(str(e))
 
 
-# ============ MAIN WINDOW ============
 class AlgoForgeWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -95,28 +103,24 @@ class AlgoForgeWindow(QMainWindow):
         self.apply_theme()
         
     def init_ui(self):
-        self.setWindowTitle("AlgoForge - Algorithm Benchmark System")
+        self.setWindowTitle("AlgoForge - Code Benchmark System")
         self.setGeometry(100, 100, 1400, 900)
         
-        # Central Widget
         central = QWidget()
         self.setCentralWidget(central)
         layout = QVBoxLayout(central)
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
         
-        # ========== HEADER ==========
         header = self.create_header()
         layout.addWidget(header)
         
-        # ========== TABS ==========
         self.tabs = QTabWidget()
         self.tabs.addTab(self.create_benchmark_tab(), "Benchmark")
         self.tabs.addTab(self.create_visualizer_tab(), "Visualizer")
         self.tabs.addTab(self.create_history_tab(), "History")
         layout.addWidget(self.tabs)
         
-        # ========== STATUS BAR ==========
         self.status_bar = QStatusBar()
         self.setStatusBar(self.status_bar)
         self.status_bar.showMessage("Ready")
@@ -126,7 +130,6 @@ class AlgoForgeWindow(QMainWindow):
         layout = QHBoxLayout(header)
         layout.setContentsMargins(20, 15, 20, 15)
         
-        # Title
         title = QLabel("ALGOFORGE")
         title_font = QFont("Consolas", 24, QFont.Weight.Bold)
         title.setFont(title_font)
@@ -134,13 +137,11 @@ class AlgoForgeWindow(QMainWindow):
         
         layout.addStretch()
         
-        # Theme Toggle
         self.theme_btn = QPushButton("🌙 Dark")
         self.theme_btn.setFixedSize(100, 35)
         self.theme_btn.clicked.connect(self.toggle_theme)
         layout.addWidget(self.theme_btn)
         
-        # Separator
         line = QFrame()
         line.setFrameShape(QFrame.Shape.HLine)
         line.setFixedHeight(2)
@@ -159,10 +160,8 @@ class AlgoForgeWindow(QMainWindow):
         layout = QVBoxLayout(tab)
         layout.setContentsMargins(15, 15, 15, 15)
         
-        # ========== TOP CONTROLS ==========
         controls = QHBoxLayout()
         
-        # Language Selector
         lang_label = QLabel("Language:")
         controls.addWidget(lang_label)
         
@@ -174,13 +173,11 @@ class AlgoForgeWindow(QMainWindow):
         
         controls.addStretch()
         
-        # Upload Button
         upload_btn = QPushButton("📁 Upload File")
         upload_btn.clicked.connect(self.upload_code)
         upload_btn.setFixedHeight(35)
         controls.addWidget(upload_btn)
         
-        # Run Button
         self.run_btn = QPushButton("▶ Run Benchmark")
         self.run_btn.clicked.connect(self.run_benchmark)
         self.run_btn.setFixedHeight(35)
@@ -188,10 +185,8 @@ class AlgoForgeWindow(QMainWindow):
         
         layout.addLayout(controls)
         
-        # ========== SPLITTER FOR CODE/OUTPUT ==========
         splitter = QSplitter(Qt.Orientation.Horizontal)
         
-        # LEFT: Code Editor
         code_group = QGroupBox("Code Editor")
         code_layout = QVBoxLayout()
         
@@ -209,18 +204,15 @@ class AlgoForgeWindow(QMainWindow):
         code_group.setLayout(code_layout)
         splitter.addWidget(code_group)
         
-        # RIGHT: Output/Results
         output_group = QGroupBox("Output & Results")
         output_layout = QVBoxLayout()
         
-        # Output Text
         self.output_text = QTextEdit()
         self.output_text.setReadOnly(True)
         self.output_text.setFont(QFont("Consolas", 10))
         self.output_text.setPlaceholderText("Compilation output and errors will appear here...")
         output_layout.addWidget(self.output_text)
         
-        # Results Summary
         results_frame = QFrame()
         results_layout = QHBoxLayout(results_frame)
         
@@ -243,7 +235,6 @@ class AlgoForgeWindow(QMainWindow):
         
         layout.addWidget(splitter)
         
-        # ========== GRAPH AREA ==========
         graph_group = QGroupBox("Performance Graph")
         graph_layout = QVBoxLayout()
         
@@ -262,7 +253,6 @@ class AlgoForgeWindow(QMainWindow):
         layout = QVBoxLayout(tab)
         layout.setContentsMargins(15, 15, 15, 15)
         
-        # Controls
         controls = QHBoxLayout()
         
         self.play_btn = QPushButton("▶ Play")
@@ -290,7 +280,6 @@ class AlgoForgeWindow(QMainWindow):
         
         layout.addLayout(controls)
         
-        # Visualization Area
         viz_area = QLabel("🎨 Algorithm Visualization\n\nRun a benchmark first to visualize")
         viz_area.setAlignment(Qt.AlignmentFlag.AlignCenter)
         viz_area.setFont(QFont("Consolas", 16))
@@ -343,7 +332,6 @@ class AlgoForgeWindow(QMainWindow):
         self.output_text.append("🔨 Compiling...\n")
         self.status_bar.showMessage("Running benchmark...")
         
-        # Start worker thread
         self.worker = BenchmarkWorker(code, self.current_language)
         self.worker.finished.connect(self.on_benchmark_finished)
         self.worker.error.connect(self.on_benchmark_error)
@@ -354,7 +342,6 @@ class AlgoForgeWindow(QMainWindow):
         self.output_text.append("✅ Benchmark completed!\n")
         self.output_text.append(json.dumps(result, indent=2))
         
-        # Update labels
         self.time_label.setText(f"Time: {result['time_ns']/1e6:.2f} ms")
         self.memory_label.setText(f"Memory: {result['memory_kb']} KB")
         self.complexity_label.setText(f"Complexity: {result['complexity']}")
@@ -542,4 +529,3 @@ if __name__ == "__main__":
     window = AlgoForgeWindow()
     window.show()
     sys.exit(app.exec())
-    
