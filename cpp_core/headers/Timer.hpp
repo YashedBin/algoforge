@@ -1,3 +1,4 @@
+
 #pragma once
 #include <iostream>
 #include <chrono>
@@ -32,5 +33,5 @@ public:
         std::cout << workDone << "\nTime: "
                   << duration.count() / 1e6 << " ms\n";
     }
-    
+    }
 };

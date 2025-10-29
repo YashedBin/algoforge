@@ -4,6 +4,7 @@ So we have a Different Approach here Considering Linux
 (I'm using WSL to program this whole project)
 and Windows to also get a Demo like feel*/
 
+#pragma once
 #include <chrono>
 #include <iostream>
 #include <string>
