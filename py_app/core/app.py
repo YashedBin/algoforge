@@ -11,19 +11,22 @@ defaults = {
     "C++": """#include <MemoryProfiler.hpp>
 #include <Timer.hpp>
 int main(){
-    Timer t("C++ Task", true);
-    MemoryProfiler m("C++ Task", true);
-    // Your code
-    return 0;
+Timer t("C++ Task", true);
+MemoryProfiler m("C++ Task", true);
+// Your code
+
+return 0;
 }
 """,
     "C": """#include <MemoryProfiler.hpp>
 #include <Timer.hpp>
 int main(){
-    Timer t("C Task", true);
-    MemoryProfiler m("C Task", true);
-    // Your code
-    return 0;
+Timer t("C Task", true);
+MemoryProfiler m("C Task", true);
+
+// Your code
+
+return 0;
 }
 """,
     "Python": """from Timer import Timer

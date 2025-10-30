@@ -10,9 +10,14 @@ class Orchestrator:
 
     def run(self):
         base = os.path.abspath(os.path.join(os.path.dirname(__file__), "../.."))
+        # path variable from os's paths then we have 
+        # main.c  , main.cpp  , main.py   , main.java 
+        # are files which are files used for User's code to be written in
         cpp_root = os.path.join(base, "cpp_core")
         src_dir = os.path.join(cpp_root, "src")
         bin_dir = os.path.join(cpp_root, "bin")
+
+        # 
         headers_dir = os.path.join(cpp_root, "headers")
 
         os.makedirs(src_dir, exist_ok=True)
