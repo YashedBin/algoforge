@@ -1,89 +1,95 @@
-# SOME CODE TO TEST on User's Dehalf
+# AlgoForge — Code Benchmarking System
+
+AlgoForge is a hybrid **C++ + Python** benchmarking framework designed for measuring, visualizing, and analyzing algorithm performance in real time.
+
+> It will help students and programmers evaluate there code's runtime efficiency, memory usage, and computational complexity across multiple algorithms or data structures.
+
+---
+
+## 📘 Background
+
+Benchmarking refers to the process of **measuring code performance** — how fast and efficiently an algorithm runs under given constraints.
+
+AlgoForge provides:
+- **Precise timing and memory profiling**
+- **Automated C++ execution through Python** Will be more languages soon
+- **Modular system** — easily plug in new algorithms for testing
+
+Common metrics used in benchmarking include:
+- **Execution Time (ms)** — measures how long code runs
+- **Memory Consumption (KB/MB)** — tracks runtime space usage
+
+
+---
+
+> ### Sorry for the Boilerplates Designed for multi languages 💀
+`Survive the se...`
+
+---
+
+## 📂 Project Structure
 
 ```
-from Timer import Timer
-from MemoryProfiler import MemoryProfiler
-
-def lrs(s):
-    with Timer("LRS - DP Table Build", emit_json=True), MemoryProfiler("LRS - DP Table Build", emit_json=True):
-        n = len(s)
-        dp = [[0 for _ in range(n+1)] for _ in range(n+1)]
-        
-        for i in range(1,n+1):
-            for j in range(1,n+1):
-                if s[i-1] == s[j-1] and i != j:
-                    dp[i][j] = 1 + dp[i-1][j-1]
-                else:
-                    dp[i][j] = max(dp[i-1][j],dp[i][j-1])
-    
-    print("Matrix")
-    for row in dp:
-        print(row)
-    
-    with Timer("LRS - Backtrack", emit_json=True), MemoryProfiler("LRS - Backtrack", emit_json=True):
-        i,j = n,n 
-        lrs_result=[]
-        while i > 0 and j > 0:
-            if s[i-1] == s[j-1] and i != j:
-                lrs_result.append(s[i-1])
-                i -= 1 
-                j -= 1 
-            elif dp[i-1][j] > dp[i][j-1]:
-                i -= 1 
-            else:
-                j -= 1 
-        
-        lrs_result.reverse()
-        return "".join(lrs_result)
-
-with Timer("LRS - Full Algorithm", emit_json=True), MemoryProfiler("LRS - Full Algorithm", emit_json=True):
-    string = "AABCBDC"
-    longest_repeating_subsequence = lrs(string)
-    print("Longest repeating subsequence for the string "+string+": "+longest_repeating_subsequence)
-
+├── README.md
+├── cpp_core
+│   ├── algos
+│   ├── assets          # UI Assests if any
+│   ├── bin
+│   │   └── main        # Binaries
+│   ├── headers
+│   │   ├── MemoryProfiler.hpp
+│   │   └── Timer.hpp
+│   └── src
+│       ├── main.c
+│       └── main.cpp
+├── devlog.md
+├── install.md            # Installation guide
+├── py_app
+│   ├── assets
+│   │   └── main.py       # for python
+│   └── core
+│       ├── MemoryProfiler.py
+│       ├── Timer.py
+│       ├── app.py
+│       └── orchestrator.py
+└── requirements.txt
 ```
+---
+### JSON Formats will be uplaoded soon
+---
+
+## ⚙️ Installation & Setup
+
+Detailed setup instructions are in [`install.md`](./install.md)
+
+> Includes environment configuration, compiler setup, and Streamlit launch commands.
+
+---
+
+## 🧠 Tech Stack
+
+| Component | Purpose |
+|------------|----------|
+| **C++17** | Core algorithmic logic, timer & memory profilers |
+| **Python 3.10+** | Runtime orchestration and frontend layer |
+| **Streamlit** | UI for visualization and control |
+| **Matplotlib / Pandas** | Optional plotting and data handling |
+
+---
+
+## 🧩 Future Scope
+
+Planned features and improvements:
+- Enhanced **sandboxing** for user-provided code
+- Dedicated **visualization engine** for performance graphs
+- **Runtime analytics** for multi-threaded benchmarks
+- Extended **language support** (C, Java, Rust)
+- Expanded **algorithm library**
+- Exportable **benchmark reports**
+
+---
 
 
+---
 
-```
-from Timer import Timer
-from MemoryProfiler import MemoryProfiler
 
-def optimal_bst_algorithm(P):
-    with Timer("OBST - Initialization", emit_json=True), MemoryProfiler("OBST - Initialization", emit_json=True):
-        n = len(P)
-        C = [[0]*(n+2) for _ in range(n+2)]
-        R = [[0]*(n+2) for _ in range(n+2)]
-        
-        for i in range(1, n+1):
-            C[i][i-1] = 0
-            C[i][i] = P[i-1]
-            R[i][i] = i
-        C[n+1][n] = 0
-    
-    with Timer("OBST - Main Loop", emit_json=True), MemoryProfiler("OBST - Main Loop", emit_json=True):
-        for d in range(1, n):
-            for i in range(1, n-d+1):
-                j = i + d
-                minval = float('inf')
-                kmin = 0
-                
-                for k in range(i, j+1):
-                    val = C[i][k-1] + C[k+1][j]
-                    if val < minval:
-                        minval = val
-                        kmin = k
-                
-                R[i][j] = kmin
-                sum_prob = sum(P[i-1:j])
-                C[i][j] = minval + sum_prob
-    
-    return round(C[1][n], 4), R
-
-with Timer("OBST - Full Algorithm", emit_json=True), MemoryProfiler("OBST - Full Algorithm", emit_json=True):
-    P = [0.1, 0.2, 0.4, 0.3]
-    cost, roots = optimal_bst_algorithm(P)
-
-print(f"Minimum expected cost: {cost:.4f}")
-
-```
