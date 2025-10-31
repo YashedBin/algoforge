@@ -21,11 +21,6 @@ __pycache__/
 dist/
 build/
 
-# Docker ?? 
-venv/
-env/
-.venv/
-
 # log and hisotry ( will add schema.json too)
 *.log
 .DS_Store
@@ -35,17 +30,10 @@ history.json
 .vscode/
 *.code-workspace
 
-# Qt
-*.qcache
-*.user
-*.pro.user
-*.qmlc
-*.jsc
-
 Thumbs.db
 *.swp
 *.swo
 
-# it is just there ( experimenting with PyQt or Streamlit)
+
 .streamlit
 
