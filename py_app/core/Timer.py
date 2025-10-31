@@ -3,7 +3,8 @@ import json
 
 """
 Nothing special for this Class it is just again a SCOPED based
-with time and yea Glad i saw some classmate code for that perfcounterns()"""
+with time and yea Glad i saw some classmate code for that perfcounterns()
+"""
 
 class Timer:
     def __init__(self, work_done, emit_json=False):

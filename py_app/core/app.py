@@ -39,6 +39,8 @@ with Timer("Python Task", emit_json=True), MemoryProfiler("Python Task", emit_js
 """
 }
 
+
+# Few Pre-Defined algorithms uploaded from our Project curriculum to test compilations/integrity and more
 ALGOS = {
     "C++": {
         "Kadane": "cpp_core/algos/kadane.cpp",
@@ -50,6 +52,8 @@ ALGOS = {
 lang = st.selectbox("Language", ["C++", "C", "Python"])
 use_predefined = st.checkbox("Use Predefined Algorithm")
 
+
+# in ALGOS the algorithm paths must be under a langauge so its USer' Friendly
 if use_predefined and lang in ALGOS:
     algo_name = st.selectbox("Select Algorithm", list(ALGOS[lang].keys()))
     algo_path = ALGOS[lang][algo_name]
@@ -68,6 +72,10 @@ else:
 
 code_area = st.text_area("Editor", code, height=300)
 
+"""
+After this line its all formatting for Data taken afte running Code
+and Graph formatting
+"""
 col1, col2 = st.columns([1, 1])
 with col1:
     run = st.button("Run Benchmark")
@@ -80,6 +88,7 @@ if clear:
 
 if run:
     with st.spinner("Running..."):
+        # This is where the real call is for Running the code
         orc = Orchestrator(lang, code_area)
         result = orc.run()
         time.sleep(0.3)
